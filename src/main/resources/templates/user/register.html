@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Shopping Cart</title>
+	<meta charset="utf-8">
+	 <link type="text/css" rel="stylesheet" th:href="@{/css/style1.css}"/>
+	  <link type="text/css" rel="stylesheet" th:href="@{/css/style2.css}"/>
+	<th:block th:replace = "layout/link::link"></th:block>
+</head>
+<body>
+<div th:replace = "layout/header::header"></div>
+	<div class="span9">
+		<ul class="breadcrumb">
+			<li><a style="color: #0088cc;" href="#">Trang Chủ</a> <span class="divider">/</span></li>
+		    <li><a style="color: #0088cc;" th:href="@{/login}"> Đăng Nhập</a> <span class="divider">/</span></li>
+		</ul>
+		<h3 class="fontLabel">Đăng Kí Tài Khoản</h3>
+		<hr class="soft" />
+		<div class="well">
+			<form class="form-horizontal" th:object="${user}"  th:action="@{/register}" method="post">
+				<h3 class="fontLabel" style="text-align: center;" th:text="${status}"></h3>
+				<br />
+				<br />
+			     <div class="control-group">
+					<label class="control-label fontLabel">Tài Khoản <sup>*</sup></label>
+					<div class="controls">
+						<input  type="text"  th:field="${user.taikhoan}" placeholder="Tài Khoản" />
+					   <p th:each="err : ${#fields.errors('taikhoan')}" th:text="${err}" style="color:red;" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label fontLabel">Password <sup>*</sup></label>
+					<div class="controls">
+						<input  type="password" th:field="${user.password}" placeholder="Password" />
+						<p th:each="err : ${#fields.errors('password')}" th:text="${err}" style="color : red;"/>
+					</div>
+				</div>
+				<div class="control-group ">
+					<label class="control-label fontLabel" for="inputEmail">Email <sup>*</sup></label>
+					<div class="controls">
+						<input  type="text" th:field="${user.email}" placeholder="Email" />
+						<p th:each="err : ${#fields.errors('email')}" th:text="${err}" style="color : red;"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label fontLabel" for="inputFname"> Họ Và Tên <sup>*</sup></label>
+					<div class="controls">
+						<input  type="text" th:field="${user.hoten}" 	placeholder="Họ Và Tên" />
+						<p th:each="err : ${#fields.errors('hoten')}" th:text="${err}" style="color : red;"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label fontLabel" for="inputLname">Tuổi <sup>*</sup></label>
+					<div class="controls">
+						<input type="number" th:field="${user.tuoi}" id="inputLname" min="1"
+							max="125" placeholder="Tuổi" />
+						<p th:each="err : ${#fields.errors('tuoi')}" th:text="${err}" style="color : red;"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label fontLabel" for="inputLname"> Địa Chỉ <sup>*</sup></label>
+					<div class="controls">
+						<input type="text" th:field="${user.diachi}" id="inputLname"
+							placeholder="Địa Chỉ" />
+						<p th:each="err : ${#fields.errors('diachi')}" th:text="${err}" style="color : red;"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label fontLabel" for="inputLname"> Số Điện
+						Thoại <sup>*</sup>
+					</label>
+					<div class="controls">
+						<input type="text" th:field="${user.sdt}" id="inputLname"
+							placeholder="Số Điện Thoại" />
+						<p th:each="err : ${#fields.errors('diachi')}" th:text="${err}" style="color : red;"/>
+
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" name="submitAccount" value="Đăng Kí"
+							class="exclusive shopBtn">
+					</div>
+				</div>
+			</form>
+		</div>
+	
+<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn" style="margin-bottom: 10px;"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+<div th:replace = "layout/footer::footer"></div>
+<th:block th:replace="layout/script::script"></th:block>
+</body>
+</html>

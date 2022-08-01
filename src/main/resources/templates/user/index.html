@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head th:replace = "layout/link::link">
+</head>
+<head>
+<meta charset="UTF-8"/>
+<title>Home</title>
+
+</head>
+<body>
+<div th:replace = "layout/header::header"></div>
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- shop -->
+					<div class="col-md-4 col-xs-6">
+					 <a th:href="@{store/id/1/1}">
+						<div class="shop">
+							<div class="shop-img">
+								<img th:src="@{/img/shop01.png}" alt="">
+							</div>
+							<div class="shop-body">
+								<h3>Laptop<br>Collection</h3>
+								<a th:href="@{store/id/1/1}" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						</a>
+					</div>
+					<!-- /shop -->
+
+					<!-- shop -->
+					<div class="col-md-4 col-xs-6">
+				   	<a  th:href="@{store/id/5/1}">
+						<div class="shop">
+							<div class="shop-img">
+								<img th:src="@{/img/shop03.png}" alt="">
+							</div>
+							<div class="shop-body">
+								<h3>Accessories<br>Collection</h3>
+								<a th:href="@{store/id/5/1}" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						</a>
+					</div>
+					<!-- /shop -->
+
+					<!-- shop -->
+					<div class="col-md-4 col-xs-6">
+					 <a th:href="@{store/id/2/1}">
+						<div class="shop">
+							<div class="shop-img">
+							  <img style="width:293.33px; height:195.55px" th:src="@{/img/4.jpg}" alt="">
+							</div>
+							<div class="shop-body">
+								<h3> Smartphones<br>Collection</h3>
+								<a th:href="@{store/id/2/1}" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					  </a>
+					</div>
+					<!-- /shop -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+					<!-- section title -->
+					<div class="col-md-12">
+						<div class="section-title">
+							<h3 class="title">New Products</h3>
+							<div class="section-nav">
+								<ul class="section-tab-nav tab-nav">
+								  <th:block th:if="${#session.getAttribute('id_new')} == null"> <li class="active"><a th:href="@{/product}">Products</a></li></th:block>
+								  <th:block th:if="${#session.getAttribute('id_new')} != null"> <li ><a th:href="@{/product}">Products</a></li></th:block>
+									<th:block th:each="category : ${caregories}">
+									   <th:block th:if="${#session.getAttribute('id_new')} == ${category.id}">
+									    <li class="active"><a  th:href="@{/product/new/{id}(id=${category.id})}" th:text="${category.ten}"></a></li>
+									  </th:block>
+									  <th:block th:if="${#session.getAttribute('id_new')} != ${category.id}">
+									    <li ><a  th:href="@{/product/new/{id}(id=${category.id})}" th:text="${category.ten}"></a></li>
+									  </th:block>
+									</th:block>
+									 <th:block th:text="${#session.setAttribute('id_new',null)}"> </th:block>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /section title -->
+
+					<!-- Products tab & slick -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="products-tabs">
+								<!-- tab -->
+								<div id="tab1" class="tab-pane active" th:if="${NewProducts.size() gt 0}" >
+									<div  class="products-slick" data-nav="#slick-nav-1">
+									   <div th:each = "NewProduct : ${NewProducts}">
+										<!-- product -->
+										<div class="product" >
+											<div class="product-img">
+												<a th:href="@{/productDetail/{id}(id=${NewProduct.id})}"><img th:src="@{'/img/'+${NewProduct.img}}" alt="" style="height:213px; width:213px;"></a>
+												<div class="product-label">
+												</div>
+											</div>
+											<div class="product-body">
+												<p class="product-category"><a th:text="${NewProduct.category.ten}" ></a></p>
+												<h3 class="product-name"><a th:href="@{/productDetail/{id}(id=${NewProduct.id})}" th:text="${NewProduct.ten}"></a></h3>
+												<h4 class="product-price" th:text="${#numbers.formatCurrency(NewProduct.price)}"> <del class="product-old-price"></del></h4>
+												<div class="product-rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+												<div class="product-btns">
+												<th:block th:if=" ${#session.getAttribute('Wishlist')}!= null ">
+												  <th:block th:if=" ${#session.getAttribute('Wishlist').containsKey(NewProduct.id)}">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${NewProduct.id})}"><i class="fa fa-heart"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+												  </th:block>
+												  
+												  <th:block th:if="${#session.getAttribute('Wishlist')}!= null ">
+												   <th:block th:if="  !(${#session.getAttribute('Wishlist').containsKey(NewProduct.id)})">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${NewProduct.id})}"><i class="fa fa-heart-o"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+												  </th:block>
+												  
+												   <th:block th:if="${#session.getAttribute('Wishlist')} == null">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${NewProduct.id})}"><i class="fa fa-heart-o"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i><a th:href="@{/cart/{id}(id=${NewProduct.id})}"> add to cart</a></button>
+											</div>
+										</div>
+										<!-- /product -->
+										</div>
+									</div>
+									<div id="slick-nav-1" class="products-slick-nav"></div>
+								</div>
+								<!-- /tab -->
+							</div>
+						</div>
+					</div>
+					<!-- Products tab & slick -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- HOT DEAL SECTION -->
+		<div id="hot-deal" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="hot-deal">
+							<ul class="hot-deal-countdown">
+								<li>
+									<div>
+										<h3>02</h3>
+										<span>Days</span>
+									</div>
+								</li>
+								<li>
+									<div>
+										<h3>10</h3>
+										<span>Hours</span>
+									</div>
+								</li>
+								<li>
+									<div>
+										<h3>34</h3>
+										<span>Mins</span>
+									</div>
+								</li>
+								<li>
+									<div>
+										<h3>60</h3>
+										<span>Secs</span>
+									</div>
+								</li>
+							</ul>
+							<h2 class="text-uppercase">hot deal this week</h2>
+							<p>New Collection Up to 50% OFF</p>
+							<a class="primary-btn cta-btn" href="#">Shop now</a>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /HOT DEAL SECTION -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+					<!-- section title -->
+					<div class="col-md-12">
+						<div class="section-title">
+							<h3 class="title">Top selling</h3>
+							<div class="section-nav">
+								<ul class="section-tab-nav tab-nav">
+								  <th:block th:if="  ${#session.getAttribute('id_top')} == null"> <li class="active"><a th:href="@{/product}">Products</a></li></th:block>
+								  <th:block th:if="${#session.getAttribute('id_top')} != null"> <li ><a th:href="@{/product}">Products</a></li></th:block>
+									<th:block th:each="category : ${caregories}">
+									   <th:block th:if="${#session.getAttribute('id_top')} == ${category.id}">
+									    <li class="active"><a  th:href="@{/product/top/{id}(id=${category.id})}" th:text="${category.ten}"></a></li>
+									  </th:block>
+									  <th:block th:if="${#session.getAttribute('id_top')} != ${category.id}">
+									    <li ><a  th:href="@{/product/top/{id}(id=${category.id})}" th:text="${category.ten}"></a></li>
+									  </th:block>
+									</th:block>
+									 <th:block th:text="${#session.setAttribute('id_top',null)}"> </th:block>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /section title -->
+
+					<!-- Products tab & slick -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="products-tabs">
+								<!-- tab -->
+								<div id="tab2" class="tab-pane fade in active" th:if="${TopProducts.size()}  gt 0">
+									<div class="products-slick" data-nav="#slick-nav-2" >
+                                         <div th:each = "TopProduct : ${TopProducts}">
+										<!-- product -->
+										<div class="product">
+											<div class="product-img">
+											<a th:href="@{/productDetail/{id}(id=${TopProduct.id})}">	<img th:src="@{'/img/'+${TopProduct.img}}" alt="" style="height:213px; width:213px;"> </a>
+												<a href="#"></a>
+												<div class="product-label">
+												</div>
+											</div>
+											<div class="product-body">
+												<p class="product-category" th:text="${TopProduct.category.ten}"></p>
+												<h3 class="product-name"><a th:href="@{/productDetail/{id}(id=${TopProduct.id})}" th:text="${TopProduct.ten}"></a></h3>
+												<h4 class="product-price" th:text="${#numbers.formatCurrency(TopProduct.price)}"><del class="product-old-price"></del></h4>
+												<div class="product-rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+												<div class="product-btns">
+											      <th:block th:if=" ${#session.getAttribute('Wishlist')}!= null ">
+												  <th:block th:if=" ${#session.getAttribute('Wishlist').containsKey(TopProduct.id)}">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${TopProduct.id})}"><i class="fa fa-heart"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+												  </th:block>
+												  
+												  <th:block th:if="${#session.getAttribute('Wishlist')}!= null ">
+												   <th:block th:if="  !(${#session.getAttribute('Wishlist').containsKey(TopProduct.id)})">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${TopProduct.id})}"><i class="fa fa-heart-o"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+												  </th:block>
+												  
+												   <th:block th:if="${#session.getAttribute('Wishlist')} == null">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${TopProduct.id})}"><i class="fa fa-heart-o"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i><a th:href="@{/cart/{id}(id=${TopProduct.id})}"> add to cart</a></button>
+											</div>
+										</div>
+										</div>
+									</div>
+									<div id="slick-nav-2" class="products-slick-nav"></div>
+								</div>
+								<!-- /tab -->
+							</div>
+						</div>
+					</div>
+					<!-- /Products tab & slick -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-4 col-xs-6">
+						<div class="section-title">
+							<h4 >Product</h4>
+							<div class="section-nav">
+								<div id="slick-nav-3" class="products-slick-nav"></div>
+							</div>
+						</div>
+
+						<div class="products-widget-slick" data-nav="#slick-nav-3">
+							<th:block th:if="${products1.size()} gt 0">
+						
+							  <th:block th:each="product,loop : ${products1}">
+							  <th:block th:if="${loop.count} == 1"><div1></th:block>
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<a   class="product-img" th:href="@{/productDetail/{id}(id=${product.id})}">	<img th:src="@{'/img/'+${product.img}}" alt=""></a>
+									</div>
+									<div class="product-body">
+										<p class="product-category" th:text="${product.category.ten}"></p>
+										<h3 class="product-name"><a th:href="@{/productDetail/{id}(id=${product.id})}" th:text="${product.ten}"></a></h3>
+										<h4 class="product-price" th:text="${#numbers.formatCurrency(product.price)}"> <del class="product-old-price" ></del></h4>
+									</div>
+								  </div>
+								  
+								   <th:block th:if="${loop.count}  %3 == 0 or ${products1.size()} == ${loop.count}" > </div1>  
+								      <th:block th:if="${loop.count}  lt ${products1.size()}"> <div1></th:block>
+								   
+								   </th:block>
+							</th:block>
+					  </div>
+					</div>
+
+					<div class="col-md-4 col-xs-6">
+						<div class="section-title">
+							<h4 >Product</h4>
+							<div class="section-nav">
+								<div id="slick-nav-4" class="products-slick-nav"></div>
+							</div>
+						</div>
+
+						<div class="products-widget-slick" data-nav="#slick-nav-4">
+							<th:block th:if="${products2.size()} gt 0">
+						
+							  <th:block th:each="product,loop : ${products2}">
+							  <th:block th:if="${loop.count} == 1"><div1></th:block>
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+									<a   class="product-img" th:href="@{/productDetail/{id}(id=${product.id})}">	<img th:src="@{'/img/'+${product.img}}" alt=""></a>
+									</div>
+									<div class="product-body">
+										<p class="product-category" th:text="${product.category.ten}"></p>
+										<h3 class="product-name"><a  th:href="@{/productDetail/{id}(id=${product.id})}" th:text="${product.ten}"></a></h3>
+										<h4 class="product-price" th:text="${#numbers.formatCurrency(product.price)}"> <del class="product-old-price" ></del></h4>
+									</div>
+								  </div>
+								  
+								   <th:block th:if="${loop.count}  %3 == 0 or ${products2.size()} == ${loop.count}" > </div1>  
+								      <th:block th:if="${loop.count}  lt ${products2.size()}"> <div1></th:block>
+								   
+								   </th:block>
+							</th:block>
+						</div>
+					</div>
+
+					<div class="clearfix visible-sm visible-xs"></div>
+
+					<div class="col-md-4 col-xs-6">
+						<div class="section-title">
+							<h4 >Product</h4>
+							<div class="section-nav">
+								<div id="slick-nav-5" class="products-slick-nav"></div>
+							</div>
+						</div>
+
+						<div class="products-widget-slick" data-nav="#slick-nav-5">
+							<th:block th:if="${products3.size()} gt 0">
+						
+							  <th:block th:each="product,loop : ${products3}">
+							  <th:block th:if="${loop.count} == 1"><div1></th:block>
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<a   class="product-img" th:href="@{/productDetail/{id}(id=${product.id})}">	<img th:src="@{'/img/'+${product.img}}" alt=""></a>
+									</div>
+									<div class="product-body">
+										<p class="product-category" th:text="${product.category.ten}"></p>
+										<h3 class="product-name"><a th:href="@{/productDetail/{id}(id=${product.id})}" th:text="${product.ten}"></a></h3>
+										<h4 class="product-price" th:text="${#numbers.formatCurrency(product.price)}"> <del class="product-old-price" ></del></h4>
+									</div>
+								  </div>
+								  
+								   <th:block th:if="${loop.count}  %3 == 0 or ${products3.size()} == ${loop.count}" > </div1>  
+								      <th:block th:if="${loop.count}  lt ${products3.size()}"> <div1></th:block>
+								   
+								   </th:block>
+							</th:block>
+						   </div>
+						</div>
+					</div>
+
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /NEWSLETTER -->
+
+<div th:replace = "layout/footer::footer"></div>
+<div th:replace = "layout/script::script"></div>
+</body>
+</html>

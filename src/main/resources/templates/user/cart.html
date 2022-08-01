@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Shopping Cart</title>
+	<meta charset="utf-8">
+	<th:block th:replace = "layout/link::link"></th:block>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style1.css}"/>
+</head>
+<body>
+<div th:replace = "layout/header::header"></div>
+	<div class="row">
+	<div class="span12">
+    
+	<div class="well well-small" style=" margin-left: 100px; margin-right: 100px;">
+	 <th:block th:if="${#session.getAttribute('Cart')} == null"> 
+	    <h1>Giỏ hàng <small class="pull-right"> Có 0 sản phẩm trong giỏ hàng </small></h1>
+	    </th:block>
+	    <th:block th:if="${#session.getAttribute('Cart')} != null"> 
+	      <h1>Giỏ hàng <small class="pull-right" th:text="'Có '+${#session.getAttribute('TotalQuanty')} +' sản phẩm trong giỏ hàng' ">  </small></h1>
+	    </th:block>
+	<hr class="soften"/>	
+
+	<table class="table table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th>Hình ảnh</th>
+                  <th>Mô tả</th>
+                  <th>Giá bán</th>
+                  <th>Số lượng </th>
+                  <th>Xóa </th>
+                  <th>Tổng tiền</th>
+				</tr>
+              </thead>
+              <tbody>
+                    <th:block th:if="${#session.getAttribute('Cart')} != null">
+					 <th:block th:each="item : ${#session.getAttribute('Cart')}">
+					<tr>
+	                  <td><img width="100" th:src="@{'/img/' + ${item.value.product.img}}" alt=""></td>
+	                  <td th:text="${item.value.product.ten}"> </td>
+	                  <td th:text="${#numbers.formatCurrency(item.value.product.price)}"></td>
+	                  <form th:action="@{/editCart/{id}(id=${item.key})}" method="post">
+		                  <td>
+							<input name="quanty" type="number" min="1" th:max="${item.value.product.quanty}" class="span1" style="max-width:80px; height:30px;" placeholder="1"  size="16"  th:value="${item.value.quanty}">
+		                  	<button class="btn btn-success btn-sm mt-4" type="submit">
+		                  		<i class="fa fa-edit"></i>
+		                  	</button>
+		                  	</td>
+	                  </form>
+	                  <td>
+	                  	<a th:href="@{/deleteCart/{id}(id=${item.value.product.id})}" class="btn btn-mini btn-danger" type="button">
+	                  		<i class="	fa fa-trash-o"></i>
+	                  	</a>
+	                  </td>
+	                  <td th:text="${#numbers.formatCurrency(item.value.totalPrice)}"></td>
+	                </tr>
+				</th:block>
+                </th:block>
+				</tbody>
+            </table><br/>
+			
+	<a href="/store/1" class="shopBtn btn-large"><i class="fa fa-arrow-left"></i> Tiếp tục mua sắm </a>
+	<th:block th:if="${#session.getAttribute('Cart')} != null">
+    	<a href="/checkout" class="shopBtn btn-large pull-right">Thanh Toán <span class="fa fa-arrow-right"></span></a>
+	</th:block>
+</div>
+</div>
+</div>
+<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+<div th:replace = "layout/footer::footer"></div>
+<th:block th:replace="layout/script::script"></th:block>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Shopping Cart</title>
+	<meta charset="utf-8">
+	<th:block th:replace = "layout/link::link"></th:block>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style1.css}"/>
+</head>
+<body>
+<div th:replace = "layout/header::header"></div>
+	<div class="row">
+	<div class="span12">
+    
+	<div class="well well-small" style=" margin-left: 100px; margin-right: 100px;">
+	    <h1 style="text-align:center">Your Wishlist </h1>
+	<hr class="soften"/>	
+
+	<table class="table table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th>Hình ảnh</th>
+                  <th>Tên</th>
+                  <th>Giá bán</th>
+                  <th>Add to cart </th>
+                  <th>Xóa </th>
+				</tr>
+              </thead>
+              <tbody>
+                    <th:block th:if="${#session.getAttribute('Wishlist')} != null">
+                     <th:block th:each="item : ${#session.getAttribute('Wishlist')}">
+					<tr>
+	                  <td><img width="100" th:src="@{'/img/' + ${item.value.img}}" alt=""></td>
+	                  <td th:text="${item.value.ten}"> </td>
+	                  <td th:text="${#numbers.formatCurrency(item.value.price)}"></td>
+	                  <td>
+	                  	<a th:href="@{/cart/{id}(id=${item.key})}"  class="btn btn-success btn-sm mt-4" type="button">
+	                  		<i class="fa fa-cart-arrow-down" style="font-size:20px"></i>
+	                  	</a>
+	                  </td>
+	                  <td>
+	                  	<a th:href="@{/addWishlist/{id}(id=${item.key})}" class="btn btn-mini btn-danger" type="button">
+	                  		<i class="	fa fa-trash-o"></i>
+	                  	</a>
+	                  </td>
+	                </tr>
+				</th:block>
+                </th:block>
+				</tbody>
+            </table><br/>
+			
+	<a href="/store/1" class="shopBtn btn-large"><i class="fa fa-arrow-left"></i> Tiếp tục mua sắm </a>
+	<a href="/listcart" class="shopBtn btn-large pull-right">Giỏ hàng <span class="fa fa-arrow-right"></span></a>
+</div>
+</div>
+</div>
+<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+<div th:replace = "layout/footer::footer"></div>
+<th:block th:replace="layout/script::script"></th:block>
+</body>
+</html>

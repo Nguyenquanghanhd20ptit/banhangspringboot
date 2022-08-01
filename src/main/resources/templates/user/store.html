@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<th:block th:replace = "layout/link::link"></th:block>
+</head>
+<body>
+<th:block th:if="( ${ktra} == null or ${ktra} != 0 ) ">
+   <th:block th:text="${#session.setAttribute('Price_min',null)}"> </th:block>
+   <th:block th:text="${#session.setAttribute('Price_max',null)}"> </th:block>
+</th:block>
+
+<th:block th:if="( ${#session.getAttribute('ktra2')} == null or ${#session.getAttribute('ktra2')} != ${id} ) ">
+   <th:block th:text="${#session.setAttribute('Price_min2',null)}"> </th:block>
+   <th:block th:text="${#session.setAttribute('Price_max2',null)}"> </th:block>
+   <th:block th:text="${#session.setAttribute('ktra2',null)}"> </th:block>
+</th:block>
+
+<div th:replace = "layout/header::header"></div>
+<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<ul class=" breadcrumb-tree">
+							 <th:block th:if="${#session.getAttribute('list_category')} == null"> <li class="active" >Products<a th:href="@{/store/1}"></a></li></th:block>
+								  <th:block th:if="${#session.getAttribute('list_category')} != null"> <li ><a th:href="@{/store/1}">Products</a></li></th:block>
+									<th:block th:each="category : ${categories}">
+									   <th:block th:if="${#session.getAttribute('list_category')} == ${category.id}">
+									    <li class="active"  th:text="${category.ten}"> <a  th:href="@{/store/id/{id}(id=${category.id})+'/1'}"></a> </li>
+									  </th:block>
+									  <th:block th:if="${#session.getAttribute('list_category')} != ${category.id}">
+									    <li ><a  th:href="@{/store/id/{id}(id=${category.id})}+'/1'" th:text="${category.ten}"></a></li>
+									  </th:block>
+									</th:block>
+								<th:block th:text="${#session.setAttribute('list_category',null)}"> </th:block>
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- ASIDE -->
+					<div id="aside" class="col-md-3">
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">Categories</h3>
+							<div class="checkbox-filter">
+                              <th:block th:each="category : ${categories}">
+                              <div class="input-checkbox">
+									<input type="checkbox" th:id="'category-' + ${category.id}">
+									<label th:for=" 'category-' + ${category.id}" >
+										<span></span>
+										<th:block th:text="${category.ten}"></th:block>
+										<small th:text=" '(' +${category.products.size()} + ')' "></small>
+									</label>
+								</div>
+                              </th:block>
+                              
+							</div>
+						</div>
+						
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">Price</h3>
+						<th:block th:if="${id} == null">
+						   <form th:action="@{/store/{page}(page=${page})}" method = "post">
+						</th:block>
+						<th:block th:if="${id} != null">
+						   <form th:action="@{'/store/id/' + ${id}+'/'+ ${page} }" method = "post">
+						</th:block>
+							<div class="price-filter">
+								<div id="price-slider"></div>
+								<div class="input-number price-min">
+									<input id="price-min" name="Price_min" type="number">
+									<span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+								<span>-</span>
+								<div class="input-number price-max">
+									<input id="price-max" name="Price_max" type="number">
+									<span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+							</div>
+							<th:block th:if="${#session.getAttribute('Price_min')} != null" th:text="'Từ ' + ${#numbers.formatCurrency(#session.getAttribute('Price_min'))}
+							   +' đến '+ ${#numbers.formatCurrency(#session.getAttribute('Price_max'))}">
+							</th:block>
+								<th:block th:if="${#session.getAttribute('Price_min2')} != null" th:text="'Từ ' + ${#numbers.formatCurrency(#session.getAttribute('Price_min2'))}
+							   +' đến '+ ${#numbers.formatCurrency(#session.getAttribute('Price_max2'))}">
+							</th:block>
+							<br/> 
+							<input class="btn-success" type="submit" value="filter">
+							</form>
+						</div>
+						<!-- /aside Widget -->
+
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">Brand</h3>
+							<div class="checkbox-filter">
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-1">
+									<label for="brand-1">
+										<span></span>
+										SAMSUNG
+										<small>(578)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-2">
+									<label for="brand-2">
+										<span></span>
+										LG
+										<small>(125)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-3">
+									<label for="brand-3">
+										<span></span>
+										SONY
+										<small>(755)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-4">
+									<label for="brand-4">
+										<span></span>
+										SAMSUNG
+										<small>(578)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-5">
+									<label for="brand-5">
+										<span></span>
+										LG
+										<small>(125)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-6">
+									<label for="brand-6">
+										<span></span>
+										SONY
+										<small>(755)</small>
+									</label>
+								</div>
+							</div>
+						</div>
+						<!-- aside Widget -->
+						
+						<div class="aside">
+							<h3 class="aside-title">Top selling</h3>
+						<th:block th:if="${TopProducts.size()} gt 0">
+							<th:block th:each="TopProduct : ${TopProducts}">
+							<div class="product-widget">
+								<div class="product-img">
+									  <a class="product-img" th:href="@{/productDetail/{id}(id=${TopProduct.id})}"> <img th:src="@{'/img/' + ${TopProduct.img}}" alt="" ></a>
+								</div>
+								<div class="product-body">
+									<p class="product-category" th:text="${TopProduct.category.ten}"></p>
+									<h3 class="product-name"><a th:href="@{/productDetail/{id}(id=${TopProduct.id})}" th:text="${TopProduct.ten}"></a></h3>
+									<h4 class="product-price" th:text="${#numbers.formatCurrency(TopProduct.price)}"> <del class="product-old-price"></del></h4>
+								</div>
+							</div>
+						  </th:block>
+						</th:block>
+
+						</div>
+						<!-- /aside Widget -->
+					</div>
+					<!-- /ASIDE -->
+
+					<!-- STORE -->
+					<div id="store" class="col-md-9">
+						<!-- store top filter -->
+						<div class="store-filter clearfix">
+							<div class="store-sort">
+								<label>
+									Sort By:
+									<select class="input-select">
+										<option value="0">Popular</option>
+										<option value="1">Position</option>
+									</select>
+								</label>
+
+								<label>
+									Show:
+									<select class="input-select">
+										<option value="0">20</option>
+										<option value="1">50</option>
+									</select>
+								</label>
+							</div>
+							
+							<ul class="store-grid">
+								<li class="active"><i class="fa fa-th"></i></li>
+								<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+							</ul>
+						</div>
+						<!-- /store top filter -->
+
+						<!-- store products -->
+						<div class="row">
+						 <th:bock th:if="${products.size()} gt 0 ">
+						  <th:block th:each="product,loop : ${products}">
+						    <th:block th:if="${loop.count} == 1"> <div1 style="display: block;"></th:block>
+							<!-- product -->
+							<div class="col-md-4 col-xs-6">
+								<div class="product">
+									<div class="product-img">
+										<a th:href="@{/productDetail/{id}(id=${product.id})}" ><img th:src="@{'/img/' + ${product.img}}"  alt="" style="height : 213px; width : 213px;"></a>
+										<div class="product-label">
+										</div>
+									</div>
+									<div class="product-body">
+										<p class="product-category" th:text="${product.category.ten}"></p>
+										<h3 class="product-name"><a th:href="@{/productDetail/{id}(id=${product.id})}" th:text="${product.ten}"></a></h3>
+										<h4 class="product-price" th:text="${#numbers.formatCurrency(product.price)}"> <del class="product-old-price"></del></h4>
+										<div class="product-rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<div class="product-btns">
+											<th:block th:if=" ${#session.getAttribute('Wishlist')}!= null ">
+												  <th:block th:if=" ${#session.getAttribute('Wishlist').containsKey(product.id)}">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${product.id})}"><i class="fa fa-heart"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+												  </th:block>
+												  
+												  <th:block th:if="${#session.getAttribute('Wishlist')}!= null ">
+												   <th:block th:if="  !(${#session.getAttribute('Wishlist').containsKey(product.id)})">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${product.id})}"><i class="fa fa-heart-o"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+												  </th:block>
+												  
+												   <th:block th:if="${#session.getAttribute('Wishlist')} == null">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${product.id})}"><i class="fa fa-heart-o"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn"><a th:href="@{/cart/{id}(id=${product.id})}"><i class="fa fa-shopping-cart"></i> add to cart</a></button>
+									</div>
+								</div>
+							</div>
+							<th:block th:if="${loop.count}%3 == 0 or ${loop.count} == ${products.size()}">
+							   </div1>
+							   <th:block th:if=" ${loop.count} lt ${products.size()}"><div1 style="display: block;"> </th:block>
+							</th:block>
+							<!-- /product -->
+							</th:block>
+						 </th:bock>
+							
+						 </div>
+						<!-- /store products -->
+
+						<!-- store bottom filter -->
+						<div class="store-filter clearfix">
+						<!--  	<span class="store-qty">Showing 20-100 products</span> -->
+						<th:block th:if="${id} == null and ${#session.getAttribute('SearchProducts')} == null">
+						 <th:block th:if="${totalPage} gt 0">
+							<ul class="store-pagination">
+							   <th:block th:each="index :  ${#numbers.sequence(1, totalPage)}">
+							      <th:block th:if="${index} == ${page}">
+							       <li class="active"><a th:href="@{/store/{page}(page = ${index})}" th:text="${index}"> </li>
+							      </th:block>
+							       <th:block th:if="${index} != ${page}">
+							         <li ><a th:href="@{/store/{page}(page = ${index})}" th:text="${index}"> </li>
+							      </th:block>
+								
+								</th:block>
+								<th:block th:if=" ${page} != ${totalPage}">
+									<li><a th:href="@{/store/{page}(page = ${page}+1)}"><i class="fa fa-angle-right"></i></a></li>
+								</th:block>
+							</ul>
+							</th:block>
+						</th:block>
+						
+						<th:block th:if="${id} == null and ${#session.getAttribute('SearchProducts')} != null">
+						  <th:block th:if="${totalPage} gt 0">
+							<ul class="store-pagination">
+							   <th:block th:each="index :  ${#numbers.sequence(1, totalPage)}">
+							      <th:block th:if="${index} == ${page}">
+							       <li class="active"><a th:href="@{/search/{page}(page = ${index})}" th:text="${index}"> </li>
+							      </th:block>
+							       <th:block th:if="${index} != ${page}">
+							         <li ><a th:href="@{/search/{page}(page = ${index})}" th:text="${index}"> </li>
+							      </th:block>
+								
+								</th:block>
+								<th:block th:if=" ${page} != ${totalPage}">
+									<li><a th:href="@{/search/{page}(page = ${page}+1)}"><i class="fa fa-angle-right"></i></a></li>
+								</th:block>
+							</ul>
+							</th:block>
+						</th:block>
+						
+						<th:block th:if="${id} != null" th:with="next = ${page}+1">
+						 <th:block th:if="${totalPage} gt 0">
+							<ul class="store-pagination">
+							   <th:block th:each="index :  ${#numbers.sequence(1, totalPage)}">
+							      <th:block th:if="${index} == ${page}">
+							       <li class="active"><a th:href="@{'/store/id/' + ${id} +'/' +${index} }" th:text="${index}"> </li>
+							      </th:block>
+							       <th:block th:if="${index} != ${page}">
+							         <li ><a  th:href="@{'/store/id/' + ${id}+'/'+ ${index} }" th:text="${index}"> </li>
+							      </th:block>
+								
+								</th:block>
+								<th:block th:if=" ${page} != ${totalPage}">
+									<li><a th:href="@{'/store/id/' + ${id}+'/'+ ${next} }"><i class="fa fa-angle-right"></i></a></li>
+								</th:block>
+							</ul>
+							</th:block>
+						</th:block>
+						</div>
+						<!-- /store bottom filter -->
+					</div>
+					<!-- /STORE -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /NEWSLETTER -->
+
+<div th:replace = "layout/footer::footer"></div>
+<th:block th:replace="layout/script::script"></th:block>
+</body>
+</html>

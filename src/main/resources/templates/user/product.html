@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<th:block  th:replace="layout/link::link"></th:block>
+</head>
+<body>
+<th:block  th:replace="layout/header::header"></th:block>
+
+		<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<ul class="breadcrumb-tree">
+						   <li ><a th:href="@{/store/1}"> Products</a></li>
+						   <th:block th:each="category : ${categories}">
+						      <li><a th:href="@{/store/id/{id}(id=${category.id})}+'/1'"  th:text="${category.ten}"></a></li>
+						   </th:block>
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- Product main img -->
+					<div class="col-md-5 col-md-push-2">
+						<div id="product-main-img">
+							<th:block th:each="index :  ${#numbers.sequence(1, 4)}">
+							   <div class="product-preview">
+								 <img th:src="@{'/img/' + ${product.img}}" alt="">
+							  </div>
+							</th:block>
+						</div>
+					</div>
+					<!-- /Product main img -->
+
+					<!-- Product thumb imgs -->
+					<div class="col-md-2  col-md-pull-5">
+						<div id="product-imgs">
+							<th:block th:each="index :  ${#numbers.sequence(1, 4)}">
+							   <div class="product-preview">
+								 <img th:src="@{'/img/' + ${product.img}}" alt="">
+							  </div>
+							</th:block>
+						</div>
+					</div>
+					<!-- /Product thumb imgs -->
+
+					<!-- Product details -->
+					<div class="col-md-5">
+						<div class="product-details">
+							<h2 class="product-name" th:text="${product.ten}"></h2>
+							<div>
+								<div class="product-rating">
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+								</div>
+								<a class="review-link" href="#">10 Review(s) | Add your review</a>
+							</div>
+							<div>
+								<h3 class="product-price" th:text="${#numbers.formatCurrency(product.price)}"> <del class="product-old-price"></del></h3>
+								<th:block th:if="${product.quanty} gt 0 "><p th:text="'Quanty : '+${product.quanty} +' Products'" style="font-weight: 500;"></p> </th:block>
+								<th:block th:if="${product.quanty} == 0 "><span class="product-available">Out of stock</span> </th:block>
+							</div>
+							<p th:text="${product.detail}"></p>
+
+							<div class="product-options">
+								<label>
+									Size
+									<select class="input-select">
+										<option value="0">X</option>
+									</select>
+								</label>
+								<label>
+									Color
+									<select class="input-select">
+										<option value="0">Red</option>
+									</select>
+								</label>
+							</div>
+							<div class="add-to-cart">
+								<div class="qty-label">
+									Qty
+									<div class="input-number">
+										<input type="number">
+										<span class="qty-up">+</span>
+										<span class="qty-down">-</span>
+									</div>
+								</div>
+								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i><a th:href="@{/cart/{id}(id=${product.id})}"></a> add to cart</button>
+							</div>
+
+							<ul class="product-btns">
+								<th:block th:if=" ${#session.getAttribute('Wishlist')}!= null ">
+						     	  <th:block th:if=" ${#session.getAttribute('Wishlist').containsKey(product.id)}">
+										<li class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${product.id})}"><i class="fa fa-heart"></i></a><span class="tooltipp" >add to wishlist</span></li>
+									  </th:block>
+								  </th:block>
+												  
+								  <th:block th:if="${#session.getAttribute('Wishlist')}!= null ">
+									   <th:block th:if="  !(${#session.getAttribute('Wishlist').containsKey(product.id)})">
+											<li class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${product.id})}"><i class="fa fa-heart-o"></i></a><span class="tooltipp" >add to wishlist</span></li>
+									  </th:block>
+								  </th:block>
+												  
+								 <th:block th:if="${#session.getAttribute('Wishlist')} == null">
+										<li class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${product.id})}"><i class="fa fa-heart-o"></i></a><span class="tooltipp" >add to wishlist</span></li>
+								 </th:block>
+							</ul>
+
+							<ul class="product-links">
+								<li>Category:</li>
+								<li><a th:href="@{/store/{id}(id=${product.category.id})/1}" th:text="${product.category.ten}"></a></li>
+							</ul>
+
+							<ul class="product-links">
+								<li>Share:</li>
+								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+								<li><a href="#"><i class="fa fa-envelope"></i></a></li>
+							</ul>
+
+						</div>
+					</div>
+					<!-- /Product details -->
+
+					<!-- Product tab -->
+					<div class="col-md-12">
+						<div id="product-tab">
+							<!-- product tab nav -->
+							<ul class="tab-nav">
+								<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+								<li><a data-toggle="tab" href="#tab3">Reviews (2)</a></li>
+							</ul>
+							<!-- /product tab nav -->
+
+							<!-- product tab content -->
+							<div class="tab-content">
+								<!-- tab1  -->
+								<div id="tab1" class="tab-pane fade in active">
+									<div class="row">
+										<div class="col-md-12">
+											<p th:text="${product.detail}"></p>
+										</div>
+									</div>
+								</div>
+								<!-- /tab1  -->
+
+								<!-- tab2  -->
+								<div id="tab3" class="tab-pane fade in">
+									<div class="row">
+										<!-- Rating -->
+										<div class="col-md-3">
+											<div id="rating">
+												<div class="rating-avg">
+													<span>4.5</span>
+													<div class="rating-stars">
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star-o"></i>
+													</div>
+												</div>
+												<ul class="rating">
+													<li>
+														<div class="rating-stars">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+														</div>
+														<div class="rating-progress">
+															<div style="width: 80%;"></div>
+														</div>
+														<span class="sum">3</span>
+													</li>
+													<li>
+														<div class="rating-stars">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+														</div>
+														<div class="rating-progress">
+															<div style="width: 60%;"></div>
+														</div>
+														<span class="sum">2</span>
+													</li>
+													<li>
+														<div class="rating-stars">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+														</div>
+														<div class="rating-progress">
+															<div></div>
+														</div>
+														<span class="sum">0</span>
+													</li>
+													<li>
+														<div class="rating-stars">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+														</div>
+														<div class="rating-progress">
+															<div></div>
+														</div>
+														<span class="sum">0</span>
+													</li>
+													<li>
+														<div class="rating-stars">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+														</div>
+														<div class="rating-progress">
+															<div></div>
+														</div>
+														<span class="sum">0</span>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<!-- /Rating -->
+
+										<!-- Reviews -->
+										<div class="col-md-6">
+											<div id="reviews">
+												<ul class="reviews">
+													<li>
+														<div class="review-heading">
+															<h5 class="name">John</h5>
+															<p class="date">27 DEC 2018, 8:0 PM</p>
+															<div class="review-rating">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o empty"></i>
+															</div>
+														</div>
+														<div class="review-body">
+															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+														</div>
+													</li>
+													<li>
+														<div class="review-heading">
+															<h5 class="name">John</h5>
+															<p class="date">27 DEC 2018, 8:0 PM</p>
+															<div class="review-rating">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o empty"></i>
+															</div>
+														</div>
+														<div class="review-body">
+															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+														</div>
+													</li>
+													<li>
+														<div class="review-heading">
+															<h5 class="name">John</h5>
+															<p class="date">27 DEC 2018, 8:0 PM</p>
+															<div class="review-rating">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o empty"></i>
+															</div>
+														</div>
+														<div class="review-body">
+															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+														</div>
+													</li>
+												</ul>
+												<ul class="reviews-pagination">
+													<li class="active">1</li>
+													<li><a href="#">2</a></li>
+													<li><a href="#">3</a></li>
+													<li><a href="#">4</a></li>
+													<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+												</ul>
+											</div>
+										</div>
+										<!-- /Reviews -->
+
+										<!-- Review Form -->
+										<div class="col-md-3">
+											<div id="review-form">
+												<form class="review-form">
+													<input class="input" type="text" placeholder="Your Name">
+													<input class="input" type="email" placeholder="Your Email">
+													<textarea class="input" placeholder="Your Review"></textarea>
+													<div class="input-rating">
+														<span>Your Rating: </span>
+														<div class="stars">
+															<input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+															<input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
+															<input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
+															<input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
+															<input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+														</div>
+													</div>
+													<button class="primary-btn">Submit</button>
+												</form>
+											</div>
+										</div>
+										<!-- /Review Form -->
+									</div>
+								</div>
+								<!-- /tab3  -->
+							</div>
+							<!-- /product tab content  -->
+						</div>
+					</div>
+					<!-- /product tab -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- Section -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+					<div class="col-md-12">
+						<div class="section-title text-center">
+							<h3 class="title">Related Products</h3>
+						</div>
+					</div>
+				<th:block th:if="${relatedProducts.size()} gt 0">
+					<th:block th:each="Product : ${relatedProducts} ">
+					<!-- product -->
+					<div class="col-md-3 col-xs-6">
+						<div class="product">
+							<div class="product-img">
+								<a th:href="@{/productDetail/{id}(id=${Product.id})}" ><img th:src="@{'/img/' + ${Product.img}}"  alt="" style="height : 213px; width : 213px;"></a>
+							</div>
+							<div class="product-body">
+								<p class="product-category"  th:text="${Product.category.ten}"> </p>
+								<h3 class="product-name"><a  th:href="@{/productDetail/{id}(id=${Product.id})}" th:text="${Product.ten}"></a></h3>
+								<h4 class="product-price" th:text="${#numbers.formatCurrency(Product.price)}"> <del class="product-old-price"></del></h4>
+								<div class="product-rating">
+								</div>
+								<div class="product-btns">
+									<th:block th:if=" ${#session.getAttribute('Wishlist')}!= null ">
+												  <th:block th:if=" ${#session.getAttribute('Wishlist').containsKey(Product.id)}">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${Product.id})}"><i class="fa fa-heart"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+												  </th:block>
+												  
+												  <th:block th:if="${#session.getAttribute('Wishlist')}!= null ">
+												   <th:block th:if="  !(${#session.getAttribute('Wishlist').containsKey(Product.id)})">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${Product.id})}"><i class="fa fa-heart-o"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+												  </th:block>
+												  
+												   <th:block th:if="${#session.getAttribute('Wishlist')} == null">
+													<button class="add-to-wishlist"><a th:href="@{/addWishlist/{id}(id=${Product.id})}"><i class="fa fa-heart-o"></i></a><span class="tooltipp" >add to wishlist</span></button>
+												  </th:block>
+									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+								</div>
+							</div>
+							<div class="add-to-cart">
+								<button class="add-to-cart-btn"><a th:href="@{/cart/{id}(id=${Product.id})}"><i class="fa fa-shopping-cart"></i> add to cart<a></button>
+							</div>
+						</div>
+					</div>
+					</th:block>
+					</th:block>
+
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /Section -->
+
+		<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /NEWSLETTER -->
+
+<th:block  th:replace="layout/script::script"></th:block>
+<th:block  th:replace="layout/footer::footer"></th:block>
+</body>
+</html>

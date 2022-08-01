@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Shopping Cart</title>
+	<meta charset="utf-8">
+	 <link type="text/css" rel="stylesheet" th:href="@{/css/style1.css}"/>
+	  <link type="text/css" rel="stylesheet" th:href="@{/css/style2.css}"/>
+	<th:block th:replace = "layout/link::link"></th:block>
+</head>
+<body>
+<div th:replace = "layout/header::header"></div>
+	<div class="span9">
+		<ul class="breadcrumb">
+			<li><a style="color: #0088cc;" href="#">Trang Chủ</a> <span class="divider">/</span></li>
+		    <li><a style="color: #0088cc;" th:href="@{/register}"> Đăng Kí</a> <span class="divider">/</span></li>
+		</ul>
+		<h3 class="fontLabel">Đăng Nhập Tài Khoản</h3>
+		<hr class="soft" />
+		<div class="well">
+			<form class="form-horizontal" method="post" action="login">
+				<h3 class="fontLabel" style="text-align: center;" th:text="${status}"></h3>
+				<br />
+				<h3 class="fontLabel" style="text-align: center; color:red;" th:text="${tbao1}"></h3>
+				<br />
+			     <div class="control-group">
+					<label class="control-label fontLabel">Tài Khoản <sup>*</sup></label>
+					<div class="controls">
+						<input  type="text"  name="taikhoan" placeholder="Tài Khoản" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label fontLabel">Password <sup>*</sup></label>
+					<div class="controls">
+						<input  type="password" name="password" placeholder="Password" />
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" name="submitAccount" value="Đăng Nhập"
+							class="exclusive shopBtn"> <a style="color: #0088cc;" href="#">Quên Mật Khẩu?</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	
+<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn" style="margin-bottom: 10px;"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+<div th:replace = "layout/footer::footer"></div>
+<th:block th:replace="layout/script::script"></th:block>
+</body>
+</html>

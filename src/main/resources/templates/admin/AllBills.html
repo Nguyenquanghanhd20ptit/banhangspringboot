@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+</head>
+<body>
+	<div class="container tablebills">
+		<div class="col-12">
+			
+			<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+				<!-- Navbar content -->
+				<ul class="navbar-nav">
+					<li class="nav-item">
+					 <a class="nav-link font-weight-bold" th:href="@{/addproduct}" >Add Product</a>
+					</li>
+					<li class="nav-item">
+					 <a class="nav-link font-weight-bold" th:href="@{/listproduct}">List of Products</a>
+					</li>
+					<li class="nav-item">
+					 <a class="nav-link font-weight-bold" th:href="@{/allbill}">All Bills</a>
+					</li>
+				</ul>
+			</nav>
+            <hr>
+            <h3 class="text-center">list of products</h3>
+			<hr>
+			<table class="table ">
+				<thead class="thead-dark">
+					<tr>
+				    	<th scope="col">Id</th>
+					    <th scope="col">Khách hàng</th>
+					    <th scope="col">Địa Chỉ</th>
+					    <th scope="col">Email</th>
+						<th scope="col">SĐT</th>
+						<th scope="col">Tổng Đơn Hàng</th>
+						<th scope="col">Tổng Số Lượng</th>
+						<th scope="col">Chi Tiết</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr  th:each="bill : ${bills}">
+						
+						<td  th:text="${bill.id}"> </td>
+						<td th:text="${bill.hoten}"> </td>
+						<td th:text="${bill.diachi}"> </td>
+						<td th:text="${bill.email}"> </td>
+						<td th:text="${bill.sdt}"> </td>
+						<td th:text="${#numbers.formatCurrency(bill.totalprice)}"> </td>
+						<td th:text="${bill.quanty}"> </td>
+						<td><a class="btn btn-success btn-sm mt-4" th:href="@{/billdetail/{id}(id=${bill.id})}">Chi Tiết</a> </td>
+					</tr>
+				</tbody>
+			</table>
+			<hr>
+		</div>
+	</div>
+	<script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+</body>
+</html>

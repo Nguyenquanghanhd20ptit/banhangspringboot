@@ -1,0 +1,209 @@
+<div th:fragment="header">
+<!-- HEADER -->
+		<header>
+	
+			<!-- TOP HEADER -->
+			<div id="top-header">
+				<div class="container">
+					<ul class="header-links pull-left">
+						<li><a href="#"><i class="fa fa-phone"></i> 0383870219</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> hanhhaohoa11a13@gmail.com</a></li>
+						<li><a href="#"><i class="fa fa-map-marker"></i> Phú Cường-Ba Vì-Hà Nội </a></li>
+					</ul>
+					<ul class="header-links pull-right">
+						<li><a href="#"><i class="fa fa-dollar"></i> VNĐ</a></li>
+						<li><a th:href="@{/login}"><i class="fa fa-user-o"></i> Đăng Nhập</a></li>
+						<li><a th:href="@{/register}"><i class="fa fa-user-plus"></i> Đăng Kí</a></li>
+						
+						<th:block th:if="${#session.getAttribute('loginInfor')} != null"><li>
+						  <a th:href="@{/dangxuat}"><i class="fa fa-arrow-circle-o-right"></i> Đăng Xuất</a></li>
+						 </th:block>
+					</ul>
+				</div>
+			</div>
+			<!-- /TOP HEADER -->
+
+			<!-- MAIN HEADER -->
+			<div id="header">
+				<!-- container -->
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<!-- LOGO -->
+						<div class="col-md-3">
+							<div class="header-logo">
+								<a href="#" class="logo">
+									<img th:src="@{/img/logo.png}" alt="">
+								</a>
+							</div>
+						</div>
+						<!-- /LOGO -->
+
+						<!-- SEARCH BAR -->
+						<div class="col-md-6">
+							<div class="header-search">
+								<form   action="/search/1" method="post">
+									<select class="input-select">
+										<option value="0">All Categories</option>
+										<option value="1">Category 01</option>
+										<option value="1">Category 02</option>
+									</select>
+									<input class="input"  type="text"  name="search"  placeholder="Search here">
+									<button class="search-btn">Search</button>
+								</form>
+							</div>
+						</div>
+						<!-- /SEARCH BAR -->
+
+						<!-- ACCOUNT -->
+						<div class="col-md-3 clearfix">
+							<div class="header-ctn" style="display: inline-flex;">
+								<!-- Wishlist -->
+								<div>
+									<a th:href="@{/wishlist}">
+										<i class="fa fa-heart-o"></i>
+										<span>Your Wishlist</span>
+										<th:block th:if="${#session.getAttribute('Wishlist')}!=null"> <div class="qty" th:text="${#session.getAttribute('Wishlist').size()}"></div></th:block>
+									</a>
+								</div>
+								<!-- /Wishlist -->
+
+								<!-- Cart -->
+								<div class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+										<i class="fa fa-shopping-cart"></i>
+										<span>Your Cart</span>
+										<th:block th:if="${#session.getAttribute('Cart')}!=null"> <div class="qty" th:text="${#session.getAttribute('Cart').size()}"></div></th:block>
+									</a>
+									<div class="cart-dropdown">
+									<th:block th:if="${#session.getAttribute('Cart')}!=null">
+										<div class="cart-list">
+										   <th:block th:each="item : ${#session.getAttribute('Cart')}">
+											<div class="product-widget">
+												<div class="product-img">
+													<img th:src="@{'/img/' + ${item.value.product.img}}" alt="">
+												</div>
+												<div class="product-body">
+													<h3 class="product-name"><a href="@{/productDetail/{id}(id=${item.value.product.id})}" th:text="${item.value.product.ten}"></a></h3>
+													<h4 class="product-price"><span class="qty" th:text="${item.value.quanty} + 'x'"></span><span th:text="${#numbers.formatCurrency(item.value.totalPrice)}"></span></h4>
+												</div>
+												<button class="delete"><a th:href="@{deleteCart/{id}(id=${item.value.product.id})}"><i class="fa fa-close" style="color:white;"></i></a></button>
+											</div>
+                                             </th:block>
+										</div>
+										<div class="cart-summary">
+											<small th:text="${#session.getAttribute('Cart').size()} + ' Item(s) selected'"></small>
+											<h5 th:text="'SUBTOTAL: ' + ${#numbers.formatCurrency(#session.getAttribute('TotalPrice'))}"></h5>
+										</div>
+										</th:block>
+										<div class="cart-btns">
+											<a th:href="@{/listcart}">View Cart</a>
+											<th:block th:if="${#session.getAttribute('Cart')} != null">
+										    	<a th:href="@{/checkout}">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+										    </th:block>
+										</div>
+									</div>
+								</div>
+								<!-- /Cart -->
+								<!-- Wishlist -->
+								<!-- login -->
+								<div class="dropdown">
+								<th:block th:if="${#session.getAttribute('loginInfor')} == null">
+									<a class="dropdown-toggle"  th:href="@{/login}">
+										<i class="fa fa-user-circle"></i>
+										<span>login</span>
+									</a>
+									</th:block>
+									
+									<th:block th:if="${#session.getAttribute('loginInfor')} != null">
+									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+										<div class="cart-avatar1">
+										  <th:block th:if="${#session.getAttribute('loginInfor').img} != null">
+											<img th:src="@{'/img/' + ${#session.getAttribute('loginInfor').img}} " alt="">
+										  </th:block>
+										  <th:block th:if="${#session.getAttribute('loginInfor').img} == null">
+											<img th:src="@{/img/avatar.jpg} " alt="">
+										  </th:block>
+										</div>
+										<span th:text="${#session.getAttribute('loginInfor').hoten}"></span>
+									</a>
+									<div class="cart-dropdown login">
+										<div class="cart-avatar">
+										  <th:block th:if="${#session.getAttribute('loginInfor').img} != null">
+											<img th:src="@{'/img/' + ${#session.getAttribute('loginInfor').img}} " alt="">
+										  </th:block>
+										  <th:block th:if="${#session.getAttribute('loginInfor').img} == null">
+											<img th:src="@{/img/avatar.jpg} " alt="">
+										  </th:block>
+											<div th:text="${#session.getAttribute('loginInfor').hoten}"></div>
+										</div>
+										<div class="cart-list">
+											<div class="product-widget">
+												<div class="product-img">
+													<i class="fa fa-home"></i>
+												</div>
+												<div class="product-body login">
+													<h3 class="product-name"><a th:href="@{/product}">trang chủ</a></h3>
+												</div>
+											</div>
+											
+											<div class="product-widget">
+												<div class="product-img">
+													<i class="fa fa-user-circle"></i>
+												</div>
+												<div class="product-body login">
+													<h3 class="product-name"><a href="#">thông tin cá nhân</a></h3>
+												</div>
+											</div>
+											
+											<div class="product-widget">
+												<div class="product-img">
+													<i class="fa fa-gear"></i>
+												</div>
+												<div class="product-body login">
+													<h3 class="product-name"><a href="#">cài đặt</a></h3>
+												</div>
+											</div>
+											
+											<div class="product-widget">
+												<div class="product-img">
+													<i class="fa fa-arrow-circle-o-right"></i>
+												</div>
+												<div class="product-body login">
+													<h3 class="product-name"><a th:href="@{/dangxuat}">đăng xuất</a></h3>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									</th:block>
+								</div>
+							</div>
+						</div>
+						<!-- /ACCOUNT -->
+					</div>
+					<!-- row -->
+				</div>
+				<!-- container -->
+			</div>
+			<!-- /MAIN HEADER -->
+		</header>
+		<nav id="navigation">
+			<!-- container -->
+			<div class="container">
+				<!-- responsive-nav -->
+				<div id="responsive-nav">
+					<!-- NAV -->
+					<ul id="nav" class="main-nav nav navbar-nav">
+						<li class="active"><a th:href="@{/product}">Home</a></li>
+						<li><a th:href="@{/store/1}">Store</a></li>
+						<li><a th:href="@{/listcart}">Your Cart</a></li>
+						<li><a th:href="@{wishlist}">Your Wishlist</a></li>
+					</ul>
+					<!-- /NAV -->
+				</div>
+				<!-- /responsive-nav -->
+			</div>
+			<!-- /container -->
+		</nav>
+</div>
