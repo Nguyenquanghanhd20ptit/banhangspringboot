@@ -75,6 +75,18 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			
+			  <plugin>
+		    <artifactId>maven-compiler-plugin</artifactId>
+		    <version>3.1</version>
+		    <configuration>
+		        <fork>true</fork>
+		        <executable>C:\Program Files\Java\jdk-14.0.2\bin\javac.exe</executable>
+		        <source>1.8</source>
+		        <target>1.8</target>
+		        <compilerArgument>-XDignore.symbol.file</compilerArgument>
+		    </configuration>
+          </plugin>
 		</plugins>
 	</build>
 	
